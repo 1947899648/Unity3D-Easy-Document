@@ -32,6 +32,7 @@ namespace WPZ0325.EasyDocument
             _text.text = content;
             _text.enableWordWrapping = true;
             _text.overflowMode = TextOverflowModes.Overflow;
+            _text.margin = GetTextMargin(setting);
 
             if (setting == null) return;
             setting.GetTextStyle(elementType, out Color color, out float fontSize, out FontStyles fontStyle, out TextAlignmentOptions align);
@@ -39,6 +40,21 @@ namespace WPZ0325.EasyDocument
             _text.fontSize = fontSize;
             _text.fontStyle = fontStyle;
             _text.alignment = align;
+        }
+
+        /// <summary>
+        /// 获取文本块内边距：左右两侧由配置控制，上下为 0
+        /// </summary>
+        /// <param name="setting"></param>
+        /// <returns></returns>
+        private static Vector4 GetTextMargin(EasyDocumentSetting setting)
+        {
+            float paddingX = 0.0f;
+            if (setting != null && setting.TextBlockPaddingX > 0.0f)
+            {
+                paddingX = setting.TextBlockPaddingX;
+            }
+            return new Vector4(paddingX, 0.0f, paddingX, 0.0f);
         }
 
         /// <summary>

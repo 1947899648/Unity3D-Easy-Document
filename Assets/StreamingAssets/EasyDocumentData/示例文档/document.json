@@ -9,7 +9,7 @@
         },
         {
             "Type": "BODY",
-            "Text": "EasyDocument is a Unity UI document browsing plugin based on TMP. It uses a folder under StreamingAssets as the document shell, containing document.json and image assets, supporting multi-level titles, body text, images and image captions with adaptive layout.",
+            "Text": "<color=#00000000>缩进</color>EasyDocument is a Unity UI document browsing plugin based on TMP. It uses a folder under StreamingAssets as the document shell, containing document.json and image assets, supporting multi-level titles, body text, images and image captions with adaptive layout.",
             "ImagePath": "",
             "Caption": ""
         },

@@ -78,6 +78,7 @@ controller.Init("我的文档");
 |---|---|
 | `FontAsset` | SDF 字体（TMP_FontAsset），留空回退 TMP 默认字体 |
 | `BlockSpacing` / `ContentPadding` | 元素间距与内容内边距 |
+| `TextBlockPaddingX` | 文本块内文字与块左右两侧的距离（像素） |
 | `ImageMaxWidthRatio` | 图片最大宽度占内容宽度比例（未指定宽高时生效） |
 | 各级标题/正文/图片标题 | 颜色、字号、字重、对齐方式 |
 

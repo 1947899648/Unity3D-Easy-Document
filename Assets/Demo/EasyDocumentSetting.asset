@@ -15,6 +15,7 @@ MonoBehaviour:
   FontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   BlockSpacing: 12
   ContentPadding: 20
+  TextBlockPaddingX: 40
   ImageMaxWidthRatio: 0.8
   Color_Title_1: {r: 1, g: 0, b: 0, a: 1}
   FontSize_Title_1: 40

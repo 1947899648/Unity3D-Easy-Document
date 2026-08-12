@@ -17,6 +17,8 @@ namespace WPZ0325.EasyDocument
         public float BlockSpacing = 12.0f;
         [Tooltip("内容四周内边距")]
         public float ContentPadding = 20.0f;
+        [Tooltip("文本块内文字与块左右两侧的距离")]
+        public float TextBlockPaddingX = 10.0f;
         [Tooltip("图片最大宽度占内容宽度的比例")]
         public float ImageMaxWidthRatio = 0.8f;
 
