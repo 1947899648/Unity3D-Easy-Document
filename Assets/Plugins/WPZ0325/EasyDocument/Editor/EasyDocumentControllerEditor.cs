@@ -5,7 +5,7 @@ using UnityEngine;
 namespace WPZ0325.EasyDocument
 {
     /// <summary>
-    /// EasyDocumentController 编辑器面板：字段分“用户可操作”与“内部结构（勿碰）”两组，并提供“生成文档”与“清空文档”按钮
+    /// EasyDocumentController 编辑器面板：字段分“文档操作”与“配置”两组，并提供“生成文档”与“清空文档”按钮
     /// </summary>
     [CustomEditor(typeof(EasyDocumentController))]
     public class EasyDocumentControllerEditor : Editor
@@ -61,7 +61,7 @@ namespace WPZ0325.EasyDocument
         }
 
         /// <summary>
-        /// 配置组：样式设置、内容块 Prefab、内部结构
+        /// 配置组：样式设置、内容块 Prefab、内容挂载点（_content 必须手动指定）
         /// </summary>
         private void DrawConfigGroup()
         {
@@ -70,9 +70,7 @@ namespace WPZ0325.EasyDocument
             EditorGUILayout.PropertyField(_settingProperty);
             EditorGUILayout.PropertyField(_prefabBlockTextProperty);
             EditorGUILayout.PropertyField(_prefabBlockImageProperty);
-            EditorGUI.BeginDisabledGroup(true);
             EditorGUILayout.PropertyField(_contentProperty);
-            EditorGUI.EndDisabledGroup();
             EditorGUILayout.EndVertical();
         }
 

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 namespace WPZ0325.EasyDocument
 {
     /// <summary>
-    /// EasyDocument 文档控制器：挂在任意 RectTransform 上，运行时自动构建 ScrollView 结构并按数据生成文档内容
+    /// EasyDocument 文档控制器：手动指定 _content 作为文档内容挂载点，运行时按数据生成文档内容
     /// </summary>
     public class EasyDocumentController : MonoBehaviour
     {
@@ -79,76 +79,17 @@ namespace WPZ0325.EasyDocument
         }
 
         /// <summary>
-        /// 构建文档显示结构：优先使用已有 ScrollRect 的 Content（用户手动搭建），否则自动构建 ScrollView + Viewport + Content
+        /// 检查文档内容挂载点：必须由用户手动指定 _content，否则直接报错；随后补齐布局组件
         /// </summary>
         private void BuildUIStructureIfNeed()
         {
-            if (_content != null) return;
-
-            if (!TryFindExistingContent())
+            if (_content == null)
             {
-                BuildAutoStructure();
-            }
-
-            EnsureLayoutComponents();
-        }
-
-        /// <summary>
-        /// 从自身及子物体查找已有 ScrollRect 的 Content
-        /// </summary>
-        /// <returns></returns>
-        private bool TryFindExistingContent()
-        {
-            ScrollRect[] scrollRects = this.GetComponentsInChildren<ScrollRect>(true);
-            if (scrollRects == null || scrollRects.Length == 0) return false;
-
-            for (int i = 0; i < scrollRects.Length; i++)
-            {
-                ScrollRect sr = scrollRects[i];
-                if (sr != null && sr.content != null)
-                {
-                    _content = sr.content;
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// 自动构建 ScrollView + Viewport + Content 结构
-        /// </summary>
-        private void BuildAutoStructure()
-        {
-            RectTransform selfRect = this.transform as RectTransform;
-            if (selfRect == null)
-            {
-                Debug.LogError("[EasyDocument] Controller 必须挂在带 RectTransform 的物体上");
+                Debug.LogError("[EasyDocument] 请手动指定 _content（文档内容挂载点）");
                 return;
             }
 
-            ScrollRect scrollRect = this.gameObject.AddComponent<ScrollRect>();
-            scrollRect.horizontal = false;
-            scrollRect.vertical = true;
-            scrollRect.movementType = ScrollRect.MovementType.Clamped;
-
-            GameObject viewportObj = new GameObject("Viewport", typeof(RectTransform));
-            viewportObj.transform.SetParent(this.transform, false);
-            RectTransform viewportRect = viewportObj.GetComponent<RectTransform>();
-            SetStretchFull(viewportRect);
-            viewportObj.AddComponent<RectMask2D>();
-
-            GameObject contentObj = new GameObject("Content", typeof(RectTransform));
-            contentObj.transform.SetParent(viewportObj.transform, false);
-            RectTransform contentRect = contentObj.GetComponent<RectTransform>();
-            contentRect.anchorMin = new Vector2(0.0f, 1.0f);
-            contentRect.anchorMax = new Vector2(1.0f, 1.0f);
-            contentRect.pivot = new Vector2(0.5f, 1.0f);
-            contentRect.sizeDelta = new Vector2(0.0f, 0.0f);
-            contentRect.anchoredPosition = new Vector2(0.0f, 0.0f);
-
-            scrollRect.viewport = viewportRect;
-            scrollRect.content = contentRect;
-            _content = contentRect;
+            EnsureLayoutComponents();
         }
 
         /// <summary>
@@ -165,7 +106,7 @@ namespace WPZ0325.EasyDocument
             }
             vlg.childControlWidth = true;
             vlg.childControlHeight = true;
-            vlg.childForceExpandWidth = false;
+            vlg.childForceExpandWidth = true;
             vlg.childForceExpandHeight = false;
             vlg.childAlignment = TextAnchor.UpperCenter;
 
@@ -282,9 +223,9 @@ namespace WPZ0325.EasyDocument
         {
             if (_content == null)
             {
-                TryFindExistingContent();
+                Debug.LogError("[EasyDocument] 请先手动指定 _content（文档内容挂载点）");
+                return;
             }
-            if (_content == null) return;
 
             for (int i = _content.childCount - 1; i >= 0; i--)
             {
@@ -310,18 +251,6 @@ namespace WPZ0325.EasyDocument
             {
                 DestroyImmediate(obj);
             }
-        }
-
-        /// <summary>
-        /// 将 RectTransform 拉伸铺满父级
-        /// </summary>
-        /// <param name="rect"></param>
-        private static void SetStretchFull(RectTransform rect)
-        {
-            rect.anchorMin = Vector2.zero;
-            rect.anchorMax = Vector2.one;
-            rect.offsetMin = Vector2.zero;
-            rect.offsetMax = Vector2.zero;
         }
     }
 }
