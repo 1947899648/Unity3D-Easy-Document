@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 467bf430340fbfb0a247bbe34b0dce47, type: 3}
+  m_Name: EasyDocumentSetting
+  m_EditorClassIdentifier: 
+  FontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  BlockSpacing: 12
+  ContentPadding: 20
+  ImageMaxWidthRatio: 0.8
+  Color_Title_1: {r: 1, g: 0, b: 0, a: 1}
+  FontSize_Title_1: 40
+  FontStyle_Title_1: 1
+  Align_Title_1: 257
+  Color_Title_2: {r: 0.9887359, g: 1, b: 0, a: 1}
+  FontSize_Title_2: 32
+  FontStyle_Title_2: 1
+  Align_Title_2: 257
+  Color_Title_3: {r: 0, g: 1, b: 0, a: 1}
+  FontSize_Title_3: 26
+  FontStyle_Title_3: 1
+  Align_Title_3: 257
+  Color_Title_4: {r: 0, g: 0, b: 1, a: 1}
+  FontSize_Title_4: 22
+  FontStyle_Title_4: 1
+  Align_Title_4: 257
+  Color_Body: {r: 1, g: 1, b: 1, a: 1}
+  FontSize_Body: 18
+  FontStyle_Body: 0
+  Align_Body: 257
+  Color_Caption: {r: 1, g: 0, b: 1, a: 1}
+  FontSize_Caption: 14
+  FontStyle_Caption: 0
+  Align_Caption: 258

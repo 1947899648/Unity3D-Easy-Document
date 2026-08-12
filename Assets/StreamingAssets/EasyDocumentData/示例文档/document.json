@@ -1,0 +1,85 @@
+{
+    "DocumentName": "Sample Document",
+    "Elements": [
+        {
+            "Type": "TITLE_1",
+            "Text": "Chapter 1 Plugin Introduction",
+            "ImagePath": "",
+            "Caption": ""
+        },
+        {
+            "Type": "BODY",
+            "Text": "EasyDocument is a Unity UI document browsing plugin based on TMP. It uses a folder under StreamingAssets as the document shell, containing document.json and image assets, supporting multi-level titles, body text, images and image captions with adaptive layout.",
+            "ImagePath": "",
+            "Caption": ""
+        },
+        {
+            "Type": "TITLE_2",
+            "Text": "1.1 Document Structure",
+            "ImagePath": "",
+            "Caption": ""
+        },
+        {
+            "Type": "BODY",
+            "Text": "Each document is a folder shell, whose name is the document name, located under the EasyDocumentData folder in StreamingAssets. The folder must contain a document.json data file, and image assets are referenced by relative paths.",
+            "ImagePath": "",
+            "Caption": ""
+        },
+        {
+            "Type": "IMAGE",
+            "Text": "",
+            "ImagePath": "images/demo_architecture.png",
+            "Caption": "Fig.1 Document folder structure",
+            "ImageWidth": 600,
+            "ImageHeight": 300
+        },
+        {
+            "Type": "TITLE_3",
+            "Text": "1.1.1 JSON Data Format",
+            "ImagePath": "",
+            "Caption": ""
+        },
+        {
+            "Type": "BODY",
+            "Text": "document.json uses a format recognizable by JsonUtility: the root object contains DocumentName and an Elements list. The element Type supports six types: TITLE_1 to TITLE_4, BODY and IMAGE. The IMAGE type records the image relative path via ImagePath and the image caption via Caption.",
+            "ImagePath": "",
+            "Caption": ""
+        },
+        {
+            "Type": "TITLE_2",
+            "Text": "1.2 Style Configuration",
+            "ImagePath": "",
+            "Caption": ""
+        },
+        {
+            "Type": "BODY",
+            "Text": "Create a style configuration asset via Create SO/EasyDocument/EasyDocumentSetting. You can drag an SDF font and preset color, font size, font style and alignment for each title level, body text and image caption. They take effect at runtime.",
+            "ImagePath": "",
+            "Caption": ""
+        },
+        {
+            "Type": "TITLE_4",
+            "Text": "1.2.1 Font Replacement",
+            "ImagePath": "",
+            "Caption": ""
+        },
+        {
+            "Type": "BODY",
+            "Text": "Drag an SDF font (TMP_FontAsset) into the FontAsset field of EasyDocumentSetting, and all text will be displayed with this font at runtime; leave it empty to fall back to the TMP default font.",
+            "ImagePath": "",
+            "Caption": ""
+        },
+        {
+            "Type": "TITLE_1",
+            "Text": "Chapter 2 Quick Start",
+            "ImagePath": "",
+            "Caption": ""
+        },
+        {
+            "Type": "BODY",
+            "Text": "Attach the EasyDocumentController script to any RectTransform object under a Canvas, configure the style asset and document folder name in the Inspector, then right-click InitByInspector or call Init at runtime to load the document.",
+            "ImagePath": "",
+            "Caption": ""
+        }
+    ]
+}
