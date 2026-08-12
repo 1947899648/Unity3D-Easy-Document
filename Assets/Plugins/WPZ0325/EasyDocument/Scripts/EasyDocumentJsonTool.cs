@@ -25,18 +25,5 @@ namespace WPZ0325.EasyDocument
                 return null;
             }
         }
-
-        /// <summary>
-        /// 文档数据模型序列化为 Json 字符串
-        /// </summary>
-        /// <param name="data"></param>
-        /// <param name="prettyPrint"></param>
-        /// <returns></returns>
-        public static string ObjectToJson(EasyDocumentDataModel data, bool prettyPrint = true)
-        {
-            if (data == null) return string.Empty;
-            string json = UnityEngine.JsonUtility.ToJson(data, prettyPrint);
-            return json;
-        }
     }
 }

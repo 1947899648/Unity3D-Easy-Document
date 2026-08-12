@@ -133,13 +133,20 @@ namespace WPZ0325.EasyDocument
         }
 
         /// <summary>
-        /// 销毁运行时创建的纹理
+        /// 销毁运行时创建的纹理：运行时用 Destroy，编辑器下用 DestroyImmediate
         /// </summary>
         /// <param name="texture"></param>
         public static void DestroyTexture(Texture2D texture)
         {
             if (texture == null) return;
-            UnityEngine.Object.Destroy(texture);
+            if (Application.isPlaying)
+            {
+                UnityEngine.Object.Destroy(texture);
+            }
+            else
+            {
+                UnityEngine.Object.DestroyImmediate(texture);
+            }
         }
     }
 }

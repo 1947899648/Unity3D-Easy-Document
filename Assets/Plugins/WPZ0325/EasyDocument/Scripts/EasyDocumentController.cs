@@ -11,18 +11,13 @@ namespace WPZ0325.EasyDocument
     /// </summary>
     public class EasyDocumentController : MonoBehaviour
     {
-        [Header("用户可自定义")]
         [SerializeField] EasyDocumentSetting _setting;
         [SerializeField] string _documentFolderName = "示例文档";
 
-        [Header("内容块 Prefab（可空，空则运行时自动构建）")]
         [SerializeField] GameObject _prefabBlockText;
         [SerializeField] GameObject _prefabBlockImage;
 
-        [Header("UI结构（勿碰，运行时自动构建）")]
         [SerializeField] RectTransform _content;
-
-        private readonly List<GameObject> _blocks = new List<GameObject>();
 
         /// <summary>
         /// 初始化文档，folderName 为 EasyDocumentData 下的文档文件夹名
@@ -33,15 +28,6 @@ namespace WPZ0325.EasyDocument
         {
             _documentFolderName = folderName;
             StartCoroutine(InitCoroutine(folderName, onFinished));
-        }
-
-        /// <summary>
-        /// 使用 Inspector 中配置的文档名初始化（Inspector 右键菜单）
-        /// </summary>
-        [ContextMenu(nameof(InitByInspector))]
-        public void InitByInspector()
-        {
-            Init(_documentFolderName);
         }
 
         private IEnumerator InitCoroutine(string folderName, Action onFinished)
@@ -236,7 +222,6 @@ namespace WPZ0325.EasyDocument
                 block = blockObj.AddComponent<EasyDocumentElementUI_Text>();
             }
             block.Init(_setting, elementType, content);
-            _blocks.Add(blockObj);
         }
 
         /// <summary>
@@ -271,7 +256,6 @@ namespace WPZ0325.EasyDocument
             {
                 block = blockObj.AddComponent<EasyDocumentElementUI_Image>();
             }
-            _blocks.Add(blockObj);
 
             Texture2D texture = null;
             if (!string.IsNullOrEmpty(elementData.ImagePath))
@@ -282,18 +266,50 @@ namespace WPZ0325.EasyDocument
         }
 
         /// <summary>
-        /// 清空所有已生成的内容块
+        /// 生成文档（编辑器面板按钮调用，可在非播放模式下手动迭代执行）
         /// </summary>
-        private void ClearBlocks()
+        /// <returns></returns>
+        public IEnumerator GenerateInEditor()
         {
-            for (int i = _blocks.Count - 1; i >= 0; i--)
+            return InitCoroutine(_documentFolderName, null);
+        }
+
+        /// <summary>
+        /// 清空所有已生成的内容块：销毁 Content 下全部子物体
+        /// （不依赖内存列表，编辑器模式下脚本重编译后依然有效）
+        /// </summary>
+        public void ClearBlocks()
+        {
+            if (_content == null)
             {
-                if (_blocks[i] != null)
+                TryFindExistingContent();
+            }
+            if (_content == null) return;
+
+            for (int i = _content.childCount - 1; i >= 0; i--)
+            {
+                Transform child = _content.GetChild(i);
+                if (child != null)
                 {
-                    Destroy(_blocks[i]);
+                    DestroyBlockObject(child.gameObject);
                 }
             }
-            _blocks.Clear();
+        }
+
+        /// <summary>
+        /// 销毁对象：运行时用 Destroy（帧末延迟销毁），编辑器下用 DestroyImmediate（立即销毁）
+        /// </summary>
+        /// <param name="obj"></param>
+        private void DestroyBlockObject(GameObject obj)
+        {
+            if (Application.isPlaying)
+            {
+                Destroy(obj);
+            }
+            else
+            {
+                DestroyImmediate(obj);
+            }
         }
 
         /// <summary>
