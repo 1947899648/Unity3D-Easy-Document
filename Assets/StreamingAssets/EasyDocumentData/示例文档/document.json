@@ -1,5 +1,5 @@
 {
-    "DocumentName": "Sample Document",
+    "DocumentName": "EasyDocument User Guide",
     "Elements": [
         {
             "Type": "TITLE_1",
@@ -9,63 +9,51 @@
         },
         {
             "Type": "BODY",
-            "Text": "<color=#00000000>缩进</color>EasyDocument is a Unity UI document browsing plugin based on TMP. It uses a folder under StreamingAssets as the document shell, containing document.json and image assets, supporting multi-level titles, body text, images and image captions with adaptive layout.",
+            "Text": "<color=#00000000>缩进</color>EasyDocument is a Unity UI document browsing plugin based on TextMeshPro. A document is a folder shell under StreamingAssets, containing a document.json data file and image assets. The plugin renders multi-level titles, body text, images and image captions with an adaptive layout, and all styles are configured by a ScriptableObject.",
             "ImagePath": "",
             "Caption": ""
         },
         {
             "Type": "TITLE_2",
-            "Text": "1.1 Document Structure",
+            "Text": "1.1 Key Features",
             "ImagePath": "",
             "Caption": ""
         },
         {
             "Type": "BODY",
-            "Text": "Each document is a folder shell, whose name is the document name, located under the EasyDocumentData folder in StreamingAssets. The folder must contain a document.json data file, and image assets are referenced by relative paths.",
+            "Text": "<color=#00000000>缩进</color>Support six element types: TITLE_1 to TITLE_4, BODY and IMAGE. Image display size can be specified in pixels inside the json, or auto-fitted by aspect ratio. Layout is fully adaptive: text blocks stretch by content, images scale proportionally, and the Content height grows with the document. Data loading uses dual channels: File on Editor/PC and UnityWebRequest on Android.",
+            "ImagePath": "",
+            "Caption": ""
+        },
+        {
+            "Type": "TITLE_2",
+            "Text": "1.2 Plugin Architecture",
             "ImagePath": "",
             "Caption": ""
         },
         {
             "Type": "IMAGE",
             "Text": "",
-            "ImagePath": "images/demo_architecture.png",
-            "Caption": "Fig.1 Document folder structure",
-            "ImageWidth": 600,
-            "ImageHeight": 300
+            "ImagePath": "images/architecture.png",
+            "Caption": "Fig.2 EasyDocument plugin architecture",
+            "ImageWidth": 400,
+            "ImageHeight": 500
+        },
+        {
+            "Type": "BODY",
+            "Text": "<color=#00000000>缩进</color>The plugin is layered from bottom to top: data layer (folder shell), loading layer (EasyDocumentHandler dual-channel), model layer (DataModel + JsonUtility), config layer (EasyDocumentSetting SO), and display layer (EasyDocumentController building the UI).",
+            "ImagePath": "",
+            "Caption": ""
         },
         {
             "Type": "TITLE_3",
-            "Text": "1.1.1 JSON Data Format",
+            "Text": "1.2.1 Data Flow",
             "ImagePath": "",
             "Caption": ""
         },
         {
             "Type": "BODY",
-            "Text": "document.json uses a format recognizable by JsonUtility: the root object contains DocumentName and an Elements list. The element Type supports six types: TITLE_1 to TITLE_4, BODY and IMAGE. The IMAGE type records the image relative path via ImagePath and the image caption via Caption.",
-            "ImagePath": "",
-            "Caption": ""
-        },
-        {
-            "Type": "TITLE_2",
-            "Text": "1.2 Style Configuration",
-            "ImagePath": "",
-            "Caption": ""
-        },
-        {
-            "Type": "BODY",
-            "Text": "Create a style configuration asset via Create SO/EasyDocument/EasyDocumentSetting. You can drag an SDF font and preset color, font size, font style and alignment for each title level, body text and image caption. They take effect at runtime.",
-            "ImagePath": "",
-            "Caption": ""
-        },
-        {
-            "Type": "TITLE_4",
-            "Text": "1.2.1 Font Replacement",
-            "ImagePath": "",
-            "Caption": ""
-        },
-        {
-            "Type": "BODY",
-            "Text": "Drag an SDF font (TMP_FontAsset) into the FontAsset field of EasyDocumentSetting, and all text will be displayed with this font at runtime; leave it empty to fall back to the TMP default font.",
+            "Text": "<color=#00000000>缩进</color>EasyDocumentController.Init(folderName) triggers loading: EasyDocumentHandler reads document.json, EasyDocumentJsonTool parses it into EasyDocumentDataModel, then each element is instantiated from the configured block prefabs into the ScrollView Content, applying styles from EasyDocumentSetting. Images are loaded asynchronously and displayed with the size from json.",
             "ImagePath": "",
             "Caption": ""
         },
@@ -76,8 +64,112 @@
             "Caption": ""
         },
         {
+            "Type": "TITLE_2",
+            "Text": "2.1 Prepare Document Data",
+            "ImagePath": "",
+            "Caption": ""
+        },
+        {
             "Type": "BODY",
-            "Text": "Attach the EasyDocumentController script to any RectTransform object under a Canvas, configure the style asset and document folder name in the Inspector, then right-click InitByInspector or call Init at runtime to load the document.",
+            "Text": "<color=#00000000>缩进</color>Create a folder under StreamingAssets/EasyDocumentData, e.g. MyDocument, put document.json inside, and keep image files under the images sub-folder referenced by relative paths.",
+            "ImagePath": "",
+            "Caption": ""
+        },
+        {
+            "Type": "TITLE_2",
+            "Text": "2.2 Configure Styles",
+            "ImagePath": "",
+            "Caption": ""
+        },
+        {
+            "Type": "BODY",
+            "Text": "<color=#00000000>缩进</color>Create an EasyDocumentSetting asset via Assets/Create/WPZ0325/Create SO/EasyDocument/EasyDocumentSetting. Drag an SDF font into FontAsset (optional), and tune colors, font sizes, font styles, alignments, block spacing, paddings and image ratio.",
+            "ImagePath": "",
+            "Caption": ""
+        },
+        {
+            "Type": "TITLE_2",
+            "Text": "2.3 Load Document",
+            "ImagePath": "",
+            "Caption": ""
+        },
+        {
+            "Type": "BODY",
+            "Text": "<color=#00000000>缩进</color>Drag the Scroll View-EasyDocument prefab into the scene (or attach EasyDocumentController to any ScrollRect), fill _setting and _documentFolderName in the Inspector, then call Init. You can also right-click the component and choose InitByInspector to preview.",
+            "ImagePath": "",
+            "Caption": ""
+        },
+        {
+            "Type": "TITLE_4",
+            "Text": "2.3.1 Hot Reload",
+            "ImagePath": "",
+            "Caption": ""
+        },
+        {
+            "Type": "BODY",
+            "Text": "<color=#00000000>缩进</color>After modifying the json or image files, call Init again to refresh the document content at runtime without restarting the application.",
+            "ImagePath": "",
+            "Caption": ""
+        },
+        {
+            "Type": "TITLE_1",
+            "Text": "Chapter 3 Data Format",
+            "ImagePath": "",
+            "Caption": ""
+        },
+        {
+            "Type": "TITLE_2",
+            "Text": "3.1 Element Types",
+            "ImagePath": "",
+            "Caption": ""
+        },
+        {
+            "Type": "BODY",
+            "Text": "<color=#00000000>缩进</color>Each element in the Elements list has a Type field. Text types (TITLE_1 to TITLE_4, BODY) use the Text field; the IMAGE type uses ImagePath for the relative image path, Caption for the image title, and optional ImageWidth/ImageHeight (pixels, 0 or omitted means auto-fit).",
+            "ImagePath": "",
+            "Caption": ""
+        },
+        {
+            "Type": "TITLE_3",
+            "Text": "3.1.1 Type Value Table",
+            "ImagePath": "",
+            "Caption": ""
+        },
+        {
+            "Type": "BODY",
+            "Text": "<color=#00000000>缩进</color>TITLE_1: chapter title. TITLE_2: section title. TITLE_3: sub-section title. TITLE_4: paragraph title. BODY: normal paragraph. IMAGE: image block with caption.",
+            "ImagePath": "",
+            "Caption": ""
+        },
+        {
+            "Type": "TITLE_2",
+            "Text": "3.2 Image Element Demo",
+            "ImagePath": "",
+            "Caption": ""
+        },
+        {
+            "Type": "IMAGE",
+            "Text": "",
+            "ImagePath": "images/demo_architecture.png",
+            "Caption": "Fig.1 Folder shell structure",
+            "ImageWidth": 400,
+            "ImageHeight": 240
+        },
+        {
+            "Type": "TITLE_2",
+            "Text": "3.3 Rich Text and Indentation",
+            "ImagePath": "",
+            "Caption": ""
+        },
+        {
+            "Type": "BODY",
+            "Text": "<color=#00000000>缩进</color>TMP rich text works directly inside the Text field. For a first-line indent, prepend a transparent placeholder: <color=#00000000>缩进</color> or use the space tag: <space=40px>.",
+            "ImagePath": "",
+            "Caption": ""
+        },
+        {
+            "Type": "BODY",
+            "Text": "<space=40px>This paragraph is indented by 40 pixels using the space tag. The indentation only applies to the first line, exactly like a Word first-line indent.",
             "ImagePath": "",
             "Caption": ""
         }
