@@ -8,7 +8,13 @@ namespace WPZ0325.EasyDocument
     /// </summary>
     public class EasyDocumentElementUI_Text : MonoBehaviour
     {
+        #region 私有字段
+
         private TextMeshProUGUI _text;
+
+        #endregion
+
+        #region 初始化
 
         /// <summary>
         /// 初始化文本元素样式与内容
@@ -42,6 +48,10 @@ namespace WPZ0325.EasyDocument
             _text.alignment = align;
         }
 
+        #endregion
+
+        #region 工具方法
+
         /// <summary>
         /// 获取文本块内边距：左右两侧由配置控制，上下为 0
         /// </summary>
@@ -70,5 +80,7 @@ namespace WPZ0325.EasyDocument
             }
             return TMP_Settings.defaultFontAsset;
         }
+
+        #endregion
     }
 }

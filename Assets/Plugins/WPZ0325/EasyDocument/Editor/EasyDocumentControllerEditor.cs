@@ -10,11 +10,17 @@ namespace WPZ0325.EasyDocument
     [CustomEditor(typeof(EasyDocumentController))]
     public class EasyDocumentControllerEditor : Editor
     {
+        #region 序列化属性引用
+
         private SerializedProperty _settingProperty;
         private SerializedProperty _documentFolderNameProperty;
         private SerializedProperty _prefabBlockTextProperty;
         private SerializedProperty _prefabBlockImageProperty;
         private SerializedProperty _contentProperty;
+
+        #endregion
+
+        #region 生命周期
 
         private void OnEnable()
         {
@@ -34,6 +40,10 @@ namespace WPZ0325.EasyDocument
 
             serializedObject.ApplyModifiedProperties();
         }
+
+        #endregion
+
+        #region 面板绘制
 
         /// <summary>
         /// 文档操作组：文档文件夹名 + 生成/清空按钮
@@ -74,6 +84,10 @@ namespace WPZ0325.EasyDocument
             EditorGUILayout.EndVertical();
         }
 
+        #endregion
+
+        #region 协程工具
+
         /// <summary>
         /// 手动迭代协程，嵌套协程一并执行（编辑器非播放模式下无法使用 StartCoroutine）
         /// </summary>
@@ -89,5 +103,7 @@ namespace WPZ0325.EasyDocument
                 }
             }
         }
+
+        #endregion
     }
 }

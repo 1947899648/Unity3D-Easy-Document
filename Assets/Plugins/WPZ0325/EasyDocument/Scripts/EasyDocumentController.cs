@@ -11,6 +11,8 @@ namespace WPZ0325.EasyDocument
     /// </summary>
     public class EasyDocumentController : MonoBehaviour
     {
+        #region 序列化字段
+
         [SerializeField] EasyDocumentSetting _setting;
         [SerializeField] string _documentFolderName = "示例文档";
 
@@ -18,6 +20,10 @@ namespace WPZ0325.EasyDocument
         [SerializeField] GameObject _prefabBlockImage;
 
         [SerializeField] RectTransform _content;
+
+        #endregion
+
+        #region 初始化
 
         /// <summary>
         /// 初始化文档，folderName 为 EasyDocumentData 下的文档文件夹名
@@ -79,6 +85,19 @@ namespace WPZ0325.EasyDocument
         }
 
         /// <summary>
+        /// 生成文档（编辑器面板按钮调用，可在非播放模式下手动迭代执行）
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerator GenerateInEditor()
+        {
+            return InitCoroutine(_documentFolderName, null);
+        }
+
+        #endregion
+
+        #region 布局与结构
+
+        /// <summary>
         /// 检查文档内容挂载点：必须由用户手动指定 _content，否则直接报错；随后补齐布局组件
         /// </summary>
         private void BuildUIStructureIfNeed()
@@ -123,6 +142,10 @@ namespace WPZ0325.EasyDocument
             vlg.spacing = spacing;
             vlg.padding = new RectOffset((int)padding, (int)padding, (int)padding, (int)padding);
         }
+
+        #endregion
+
+        #region 内容块生成
 
         /// <summary>
         /// 将 json 中的字符串类型解析为枚举，解析失败返回 NONE
@@ -206,14 +229,9 @@ namespace WPZ0325.EasyDocument
             block.Init(_setting, texture, elementData.Caption, elementData.ImageWidth, elementData.ImageHeight);
         }
 
-        /// <summary>
-        /// 生成文档（编辑器面板按钮调用，可在非播放模式下手动迭代执行）
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerator GenerateInEditor()
-        {
-            return InitCoroutine(_documentFolderName, null);
-        }
+        #endregion
+
+        #region 清理
 
         /// <summary>
         /// 清空所有已生成的内容块：销毁 Content 下全部子物体
@@ -252,5 +270,7 @@ namespace WPZ0325.EasyDocument
                 DestroyImmediate(obj);
             }
         }
+
+        #endregion
     }
 }

@@ -11,10 +11,16 @@ namespace WPZ0325.EasyDocument
     /// </summary>
     public class EasyDocumentElementUI_Image : MonoBehaviour
     {
+        #region 私有字段
+
         private RawImage _rawImage;
         private TextMeshProUGUI _captionText;
         private LayoutElement _imageLayoutElement;
         private Texture2D _texture;
+
+        #endregion
+
+        #region 初始化
 
         /// <summary>
         /// 初始化图片元素，texture 可为 null（加载失败时显示灰色占位）
@@ -83,6 +89,10 @@ namespace WPZ0325.EasyDocument
             InitCaption(setting, caption, imageWidth, captionTrans);
         }
 
+        #endregion
+
+        #region 尺寸计算
+
         /// <summary>
         /// 计算图片显示尺寸：json 指定宽高优先，其次按最大宽度比例与图片宽高比
         /// </summary>
@@ -113,6 +123,23 @@ namespace WPZ0325.EasyDocument
             outWidth = 100.0f;
             outHeight = 100.0f;
         }
+
+        /// <summary>
+        /// 获取内容宽度（父级 Content 宽度）
+        /// </summary>
+        /// <returns></returns>
+        private float GetContentWidth()
+        {
+            Transform parent = this.transform.parent;
+            if (parent == null) return 500.0f;
+            RectTransform parentRect = parent as RectTransform;
+            if (parentRect == null) return 500.0f;
+            return Mathf.Max(1.0f, parentRect.rect.width);
+        }
+
+        #endregion
+
+        #region 标题与子物体
 
         /// <summary>
         /// 初始化图片标题
@@ -168,18 +195,9 @@ namespace WPZ0325.EasyDocument
             return childObj.transform;
         }
 
-        /// <summary>
-        /// 获取内容宽度（父级 Content 宽度）
-        /// </summary>
-        /// <returns></returns>
-        private float GetContentWidth()
-        {
-            Transform parent = this.transform.parent;
-            if (parent == null) return 500.0f;
-            RectTransform parentRect = parent as RectTransform;
-            if (parentRect == null) return 500.0f;
-            return Mathf.Max(1.0f, parentRect.rect.width);
-        }
+        #endregion
+
+        #region 生命周期
 
         protected virtual void OnDestroy()
         {
@@ -189,5 +207,7 @@ namespace WPZ0325.EasyDocument
                 _texture = null;
             }
         }
+
+        #endregion
     }
 }

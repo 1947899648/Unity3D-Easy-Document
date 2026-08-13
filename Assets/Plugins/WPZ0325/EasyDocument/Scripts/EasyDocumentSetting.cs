@@ -9,6 +9,8 @@ namespace WPZ0325.EasyDocument
     [CreateAssetMenu(fileName = "EasyDocumentSetting", menuName = "WPZ0325/Create SO/EasyDocument/EasyDocumentSetting")]
     public class EasyDocumentSetting : ScriptableObject
     {
+        #region 字体与排版
+
         [Header("------SDF字体（可空，空则使用TMP默认字体）------")]
         public TMP_FontAsset FontAsset;
 
@@ -21,6 +23,10 @@ namespace WPZ0325.EasyDocument
         public float TextBlockPaddingX = 10.0f;
         [Tooltip("图片最大宽度占内容宽度的比例")]
         public float ImageMaxWidthRatio = 0.8f;
+
+        #endregion
+
+        #region 标题样式
 
         [Header("------1级标题------")]
         public Color Color_Title_1 = Color.black;
@@ -46,6 +52,10 @@ namespace WPZ0325.EasyDocument
         public FontStyles FontStyle_Title_4 = FontStyles.Bold;
         public TextAlignmentOptions Align_Title_4 = TextAlignmentOptions.Left;
 
+        #endregion
+
+        #region 正文与图片标题样式
+
         [Header("------正文------")]
         public Color Color_Body = new Color(0.15f, 0.15f, 0.15f, 1.0f);
         public float FontSize_Body = 18.0f;
@@ -57,6 +67,10 @@ namespace WPZ0325.EasyDocument
         public float FontSize_Caption = 14.0f;
         public FontStyles FontStyle_Caption = FontStyles.Normal;
         public TextAlignmentOptions Align_Caption = TextAlignmentOptions.Center;
+
+        #endregion
+
+        #region 样式查询
 
         /// <summary>
         /// 根据元素类型获取对应文本样式
@@ -102,5 +116,7 @@ namespace WPZ0325.EasyDocument
                     break;
             }
         }
+
+        #endregion
     }
 }

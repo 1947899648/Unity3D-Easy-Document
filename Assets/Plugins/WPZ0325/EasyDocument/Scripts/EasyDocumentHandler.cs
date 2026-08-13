@@ -12,6 +12,8 @@ namespace WPZ0325.EasyDocument
     /// </summary>
     public static class EasyDocumentHandler
     {
+        #region 属性
+
         /// <summary>
         /// StreamingAssets 下 EasyDocumentData 根目录
         /// </summary>
@@ -34,6 +36,10 @@ namespace WPZ0325.EasyDocument
                 return Application.platform == RuntimePlatform.Android;
             }
         }
+
+        #endregion
+
+        #region 数据加载
 
         /// <summary>
         /// 加载文档 json（协程），folderName 为 EasyDocumentData 下的文档文件夹名
@@ -132,6 +138,10 @@ namespace WPZ0325.EasyDocument
             onLoaded?.Invoke(result);
         }
 
+        #endregion
+
+        #region 纹理管理
+
         /// <summary>
         /// 销毁运行时创建的纹理：运行时用 Destroy，编辑器下用 DestroyImmediate
         /// </summary>
@@ -148,5 +158,7 @@ namespace WPZ0325.EasyDocument
                 UnityEngine.Object.DestroyImmediate(texture);
             }
         }
+
+        #endregion
     }
 }
