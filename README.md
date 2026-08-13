@@ -26,7 +26,8 @@ Assets/
 ├── Plugins/WPZ0325/EasyDocument/     # 插件本体
 │   ├── Scripts/                      # 核心脚本
 │   │   └── EasyDocumentElement/      # 内容块元素脚本
-│   └── Prefabs/                      # Scroll View 整件 + 内容块预制体
+│   ├── Editor/                       # 编辑器面板（生成/清空文档按钮）
+│   └── Prefabs/                      # 整件预制体 + Blocks/ 内容块预制体
 ├── Demo/                             # 演示场景与样式配置资源
 └── StreamingAssets/EasyDocumentData/ # 文档数据目录（<文档名>/document.json + 图片）
 ```
@@ -69,16 +70,38 @@ document.json 结构：
 
 1. 在 `StreamingAssets/EasyDocumentData/` 下创建文档文件夹（含 document.json 与图片资源）
 2. 创建样式配置：菜单 `Assets > Create > WPZ0325 > Create SO > EasyDocument > EasyDocumentSetting`，可选拖入 SDF 字体
-3. 将 `Scroll View-EasyDocument` 预制体拖入场景（或挂载 `EasyDocumentController` 到任意 ScrollRect 物体上）
-4. Inspector 配置：样式资源 `_setting`、文档文件夹名 `_documentFolderName`、内容块预制体
-5. 运行时调用：
+3. 场景放置（二选一）：
+   - 推荐：将 `Panel-EasyDocument` 预制体拖入场景，已内置完整文档 UI 结构
+   - 或自行搭建 UI 后挂载 `EasyDocumentController`，并把文档内容挂载点拖入 `_content`
+4. Inspector 配置：样式资源 `_setting`、文档文件夹名 `_documentFolderName`、内容挂载点 `_content`（必填）
+5. 点击面板"生成文档"按钮即可在编辑器中预览，点击"清空文档"清除内容
+6. 运行时调用：
 
 ```csharp
 EasyDocumentController controller = GetComponent<EasyDocumentController>();
 controller.Init("我的文档");
 ```
 
-> 提示：Inspector 中右键组件，点击 `InitByInspector` 可直接加载预览。
+## 编辑器面板
+
+选中挂载了 `EasyDocumentController` 的物体后，Inspector 分为两组：
+
+**文档操作区**
+
+| 项目 | 说明 |
+|---|---|
+| `_documentFolderName` | 文档文件夹名（即 StreamingAssets/EasyDocumentData 下的目录名） |
+| 生成文档 | 编辑器中加载并生成文档内容（非播放模式可直接预览） |
+| 清空文档 | 销毁 Content 下全部已生成内容块 |
+
+**配置区**
+
+| 字段 | 必填 | 说明 |
+|---|---|---|
+| `_setting` | 建议 | 样式配置资产（EasyDocumentSetting） |
+| `_prefabBlockText` | 可选 | 文本块预制体，留空时自动构建 |
+| `_prefabBlockImage` | 可选 | 图片块预制体，留空时自动构建 |
+| `_content` | **必填** | 文档内容挂载点（RectTransform），未指定时生成会报错 |
 
 ## 样式配置说明
 
@@ -93,5 +116,5 @@ controller.Init("我的文档");
 ## 注意事项
 
 - 中文内容需要拖入支持中文的 SDF 字体（在 TMP Font Asset Creator 中用微软雅黑等字体生成）
-- 修改文档数据后，重新调用 `Init` 即可刷新内容
-- 图片块预制体的 `VerticalLayoutGroup` 采用子元素自撑高布局，请勿将 `Child Control Height` 打开
+- 修改文档数据后，重新点击"生成文档"或调用 `Init` 即可刷新内容
+- `_content` 必须手动指定，未指定时生成文档会打印错误提示
