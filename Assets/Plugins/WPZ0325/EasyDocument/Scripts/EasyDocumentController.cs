@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace WPZ0325.EasyDocument
@@ -20,6 +21,20 @@ namespace WPZ0325.EasyDocument
         [SerializeField] GameObject _prefabBlockImage;
 
         [SerializeField] RectTransform _content;
+
+        #endregion
+
+        #region 事件
+
+        /// <summary>
+        /// 文档生成完成事件（成功或失败均触发，内容可能已被清空）
+        /// </summary>
+        public UnityEvent OnDocumentGenerated = new UnityEvent();
+
+        /// <summary>
+        /// 文档内容被清空事件
+        /// </summary>
+        public UnityEvent OnDocumentCleared = new UnityEvent();
 
         #endregion
 
@@ -47,6 +62,7 @@ namespace WPZ0325.EasyDocument
             if (data == null)
             {
                 Debug.LogError($"[EasyDocument] 文档数据加载失败:{folderName}");
+                OnDocumentGenerated.Invoke();
                 onFinished?.Invoke();
                 yield break;
             }
@@ -55,6 +71,7 @@ namespace WPZ0325.EasyDocument
             if (elements == null || elements.Count == 0)
             {
                 Debug.LogWarning($"[EasyDocument] 文档元素列表为空:{folderName}");
+                OnDocumentGenerated.Invoke();
                 onFinished?.Invoke();
                 yield break;
             }
@@ -82,6 +99,7 @@ namespace WPZ0325.EasyDocument
             }
 
             onFinished?.Invoke();
+            OnDocumentGenerated.Invoke();
         }
 
         /// <summary>
@@ -244,6 +262,8 @@ namespace WPZ0325.EasyDocument
                 Debug.LogError("[EasyDocument] 请先手动指定 _content（文档内容挂载点）");
                 return;
             }
+
+            OnDocumentCleared.Invoke();
 
             for (int i = _content.childCount - 1; i >= 0; i--)
             {

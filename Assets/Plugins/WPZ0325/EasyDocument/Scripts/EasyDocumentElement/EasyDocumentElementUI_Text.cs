@@ -12,6 +12,23 @@ namespace WPZ0325.EasyDocument
 
         private TextMeshProUGUI _text;
 
+        [SerializeField] private EnEasyDocumentElementType _elementType;
+
+        #endregion
+
+        #region 属性
+
+        /// <summary>
+        /// 元素类型（Init 时记录并序列化保存，供外部识别标题级别，如章节导航）
+        /// </summary>
+        public EnEasyDocumentElementType ElementType
+        {
+            get
+            {
+                return _elementType;
+            }
+        }
+
         #endregion
 
         #region 初始化
@@ -24,6 +41,8 @@ namespace WPZ0325.EasyDocument
         /// <param name="content"></param>
         public void Init(EasyDocumentSetting setting, EnEasyDocumentElementType elementType, string content)
         {
+            _elementType = elementType;
+
             if (_text == null)
             {
                 _text = this.GetComponent<TextMeshProUGUI>();
