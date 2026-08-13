@@ -1,0 +1,19 @@
+{
+    "name": "WPZ0325.EasyDocument.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:bc981e4f081848e4480fb08dab44f031",
+        "GUID:343deaaf83e0cee4ca978e7df0b80d21"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

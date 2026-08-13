@@ -1,14 +1,15 @@
 using System.Collections;
 using UnityEditor;
 using UnityEngine;
+using WPZ0325.EasyDocument;
 
-namespace WPZ0325.EasyDocument
+namespace WPZ0325.EasyDocument.Editor
 {
     /// <summary>
     /// EasyDocumentController 编辑器面板：字段分“文档操作”与“配置”两组，并提供“生成文档”与“清空文档”按钮
     /// </summary>
     [CustomEditor(typeof(EasyDocumentController))]
-    public class EasyDocumentControllerEditor : Editor
+    public class EasyDocumentControllerEditor : UnityEditor.Editor
     {
         #region 序列化属性引用
 

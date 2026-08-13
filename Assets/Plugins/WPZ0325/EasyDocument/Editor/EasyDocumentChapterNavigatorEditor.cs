@@ -2,20 +2,28 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
+using WPZ0325.EasyDocument;
 
-namespace WPZ0325.EasyDocument
+namespace WPZ0325.EasyDocument.Editor
 {
     /// <summary>
-    /// EasyDocumentChapterNavigator 编辑器面板：滚动参数配置 + 当前文档章节层级结构可视化
+    /// EasyDocumentChapterNavigator 编辑器面板：手动/自动两种按钮模式 tab 切换 + 章节层级结构可视化
     /// </summary>
     [CustomEditor(typeof(EasyDocumentChapterNavigator))]
-    public class EasyDocumentChapterNavigatorEditor : Editor
+    public class EasyDocumentChapterNavigatorEditor : UnityEditor.Editor
     {
         #region 序列化属性引用
 
+        private SerializedProperty _buttonModeProperty;
         private SerializedProperty _controllerProperty;
         private SerializedProperty _smoothDurationProperty;
         private SerializedProperty _smoothTypeProperty;
+        private SerializedProperty _prefabChapterButtonProperty;
+        private SerializedProperty _buttonContainerProperty;
+        private SerializedProperty _generateTitle1Property;
+        private SerializedProperty _generateTitle2Property;
+        private SerializedProperty _generateTitle3Property;
+        private SerializedProperty _generateTitle4Property;
 
         #endregion
 
@@ -25,9 +33,16 @@ namespace WPZ0325.EasyDocument
 
         private void OnEnable()
         {
+            _buttonModeProperty = serializedObject.FindProperty("_buttonMode");
             _controllerProperty = serializedObject.FindProperty("_controller");
             _smoothDurationProperty = serializedObject.FindProperty("_smoothDuration");
             _smoothTypeProperty = serializedObject.FindProperty("_smoothType");
+            _prefabChapterButtonProperty = serializedObject.FindProperty("_prefabChapterButton");
+            _buttonContainerProperty = serializedObject.FindProperty("_buttonContainer");
+            _generateTitle1Property = serializedObject.FindProperty("_generateTitle1");
+            _generateTitle2Property = serializedObject.FindProperty("_generateTitle2");
+            _generateTitle3Property = serializedObject.FindProperty("_generateTitle3");
+            _generateTitle4Property = serializedObject.FindProperty("_generateTitle4");
 
             EditorApplication.update += OnEditorUpdate;
         }
@@ -56,8 +71,17 @@ namespace WPZ0325.EasyDocument
         {
             serializedObject.Update();
 
-            DrawPropertiesGroup();
-            DrawChapterTreeGroup();
+            DrawModeToolbar();
+
+            if (_buttonModeProperty.enumValueIndex == (int)EnChapterButtonMode.Auto)
+            {
+                DrawAutoModeGroup();
+            }
+            else
+            {
+                DrawPropertiesGroup();
+                DrawChapterTreeGroup();
+            }
 
             serializedObject.ApplyModifiedProperties();
         }
@@ -65,6 +89,43 @@ namespace WPZ0325.EasyDocument
         #endregion
 
         #region 面板绘制
+
+        /// <summary>
+        /// 顶部模式切换 tab：手动配置跳转按钮 / 自动配置跳转按钮
+        /// </summary>
+        private void DrawModeToolbar()
+        {
+            int modeIndex = _buttonModeProperty.enumValueIndex;
+            int newIndex = GUILayout.Toolbar(modeIndex, new[] { "手动配置跳转按钮", "自动配置跳转按钮" }, GUILayout.Height(24));
+            if (newIndex != modeIndex)
+            {
+                _buttonModeProperty.enumValueIndex = newIndex;
+            }
+        }
+
+        /// <summary>
+        /// 自动配置模式参数组：按钮预制体 + 生成 root + 各级别生成开关
+        /// </summary>
+        private void DrawAutoModeGroup()
+        {
+            EditorGUILayout.Space();
+            EditorGUILayout.BeginVertical("box");
+            EditorGUILayout.LabelField("自动配置", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(_controllerProperty);
+            EditorGUILayout.PropertyField(_prefabChapterButtonProperty);
+            EditorGUILayout.PropertyField(_buttonContainerProperty);
+
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("标题级别生成开关", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(_generateTitle1Property, new GUIContent("1级标题"));
+            EditorGUILayout.PropertyField(_generateTitle2Property, new GUIContent("2级标题"));
+            EditorGUILayout.PropertyField(_generateTitle3Property, new GUIContent("3级标题"));
+            EditorGUILayout.PropertyField(_generateTitle4Property, new GUIContent("4级标题"));
+
+            EditorGUILayout.Space();
+            EditorGUILayout.HelpBox("文档生成/清理时自动创建与销毁按钮；编辑模式下仅预览生成，点击跳转需在播放模式验证。自动模式下按钮容器由本组件全权管理（每次重建会清空容器内全部子对象），请勿在容器内放置其他内容；建议容器放在 Content 之外，避免被文档清空逻辑销毁。", MessageType.Info);
+            EditorGUILayout.EndVertical();
+        }
 
         /// <summary>
         /// 滚动参数组：Controller 引用 + 时长 + 缓动类型
