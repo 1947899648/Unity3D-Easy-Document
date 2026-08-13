@@ -26,13 +26,16 @@
 
 ```
 Assets/
-├── Plugins/WPZ0325/EasyDocument/     # 插件本体
-│   ├── Scripts/                      # 核心脚本（Controller/Handler/DataModel/Navigator 等）
+├── Plugins/WPZ0325/EasyDocument/     # 插件本体（WPZ0325.EasyDocument 程序集）
+│   ├── EasyDocumentSetting.asset     # 样式配置资源（ScriptableObject）
+│   ├── WPZ0325.EasyDocument.asmdef   # 程序集定义
+│   ├── Scripts/
+│   │   ├── EasyDocumentCore/         # 核心逻辑（Controller/Handler/DataModel/Setting 等）
 │   │   ├── EasyDocumentElement/      # 内容块元素脚本
 │   │   └── EasyDocumentChapterNavigator.cs  # 章节导航器
 │   ├── Editor/                       # 编辑器面板（生成/清空文档、章节索引）
 │   └── Prefabs/                      # 整件预制体 + Blocks/ 内容块预制体
-├── Demo/                             # 演示场景与样式配置资源
+├── Demo/                             # 演示场景
 └── StreamingAssets/EasyDocumentData/ # 文档数据目录（<文档名>/document.json + 图片）
 ```
 
